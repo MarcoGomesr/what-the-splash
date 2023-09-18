@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadImages } from '../../actions';
-import './styles.css';
 import Button from '../Button';
+import Stats from '../Stats/Stats';
+import './styles.css';
 
 class ImageGrid extends Component {
     componentDidMount() {
@@ -10,7 +11,7 @@ class ImageGrid extends Component {
     }
 
     render() {
-        const { error, isLoading, loadImages } = this.props;
+        const { error, isLoading, loadImages, imageStats } = this.props;
         const images = [].concat(...this.props.images);
         return (
             <div className="content">
@@ -22,6 +23,7 @@ class ImageGrid extends Component {
                                 image.height / image.width,
                             )}`}
                         >
+                            <Stats stats={imageStats[image.id]} />
                             <img
                                 src={image.urls.small}
                                 alt={image.user.username}
@@ -41,9 +43,10 @@ class ImageGrid extends Component {
     }
 }
 
-const mapStateToProps = ({ isLoading, images, error }) => ({
+const mapStateToProps = ({ isLoading, images, error, imageStats }) => ({
     isLoading,
     images,
+    imageStats,
     error,
 });
 
